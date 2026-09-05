@@ -1,4 +1,7 @@
 package com.example.springpractice.exception;
 
-public class StudentNotFoundException {
+public class StudentNotFoundException extends  RuntimeException{
+    public StudentNotFoundException(Long id){
+        super("Student not found with id : "+id);
+    }
 }

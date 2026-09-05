@@ -1,9 +1,8 @@
 package com.example.springpractice.service;
 
 import com.example.springpractice.entity.Student;
+import com.example.springpractice.exception.StudentNotFoundException;
 import com.example.springpractice.repository.StudentRepository;
-import org.apache.catalina.valves.StuckThreadDetectionValve;
-import org.springframework.core.SpringVersion;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +25,22 @@ public class StudentService {
     }
 
     public String deleteStudent(Long id ){
+
+        if(!studentRepository.existsById(id)){
+            throw new StudentNotFoundException(id);
+        }
+
         studentRepository.deleteById(id);
         return "Student "+id+" deleted Successfully";
     }
+
+    public Student getStudentById(Long id) {
+
+        return studentRepository.findById(id)
+                .orElseThrow(() ->
+                        new StudentNotFoundException(id));
+    }
+
+
 
 }

@@ -2,7 +2,9 @@ package com.example.springpractice.controllers;
 
 
 import com.example.springpractice.entity.Student;
+import com.example.springpractice.requestDto.StudentRequest;
 import com.example.springpractice.service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +30,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<Student> createStudent(@RequestBody Student student){
+    public ResponseEntity<Student> createStudent( @Valid @RequestBody Student student){
 //        return studentService.createStudent(student);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(studentService.createStudent(student));
@@ -48,5 +50,30 @@ public class StudentController {
                 .status(HttpStatus.OK)
                 .body(studentService.getStudentById(id));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Student>> findAStudentByName(@RequestParam String name){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(studentService.findByName(name));
+    }
+
+    @GetMapping("/search/email")
+    public ResponseEntity<List<Student>> findAStudentByEmail(@RequestParam String email){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(studentService.findByEmail(email));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> findTheListOfEmails(){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(studentService.findTheCountOfEmails());
+    }
+
+    @GetMapping("/get_students_with/identical_Name")
+    public ResponseEntity<List<StudentRequest>> findIdenticalName(@RequestParam String name){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(studentService.findTheCountOfIdenticalNamesOnDB(name));
+    }
+
 
 }

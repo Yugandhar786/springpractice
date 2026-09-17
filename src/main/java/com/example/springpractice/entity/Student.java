@@ -2,6 +2,9 @@ package com.example.springpractice.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "students")
@@ -11,21 +14,20 @@ public class Student {
     private Long id;
 
 
+    private String name;
+    private String email;
+    private Integer age;
+
     public Student(){
 
     }
+
     public Student(Long id, String name, String email, Integer age) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.age = age;
     }
-
-    private String name;
-    private String email;
-    private Integer age;
-
-
 
     public Long getId() {
         return id;

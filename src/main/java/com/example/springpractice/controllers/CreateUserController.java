@@ -1,32 +1,33 @@
 package com.example.springpractice.controllers;
 
 
+import com.example.springpractice.entity.Users;
+import com.example.springpractice.requestDto.UserRegisterDTO;
 import com.example.springpractice.service.UserService;
-import com.example.springpractice.requestDto.UserDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
 public class CreateUserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public CreateUserController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(userService.createUser(userDTO));
+    public ResponseEntity<Users> createUser(@RequestBody UserRegisterDTO userRegisterDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(userRegisterDTO));
     }
 
     @GetMapping
-    public ResponseEntity<Set<UserDTO>> getUser() {
-        return ResponseEntity.ok(userService.getUsers());
+    public ResponseEntity<List<Users>> getUser() {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.listAllUsers());
     }
 
 
